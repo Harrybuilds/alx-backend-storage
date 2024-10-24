@@ -18,6 +18,7 @@ def count_call(method: Callable) -> Callable:
         return method(self, *args, **kwargs)
     return wrapper
 
+
 # Decorator to store the input/output history of a method
 def call_history(method: Callable) -> Callable:
     @wraps(method)
@@ -38,10 +39,12 @@ def call_history(method: Callable) -> Callable:
         return output
     return wrapper
 
+
 # Replay function to display the history of calls to a function
 def replay(method: Callable) -> None:
     """Display the history of calls of a particular function."""
-    redis_client = method.__self__._redis  # Access the Redis client from the method's instance
+    redis_client = method.__self__._redis  # Access
+    # the Redis client from the method's instance
     method_name = method.__qualname__  # Get the method's qualified name
 
     input_key = method_name + ":inputs"
@@ -59,7 +62,9 @@ def replay(method: Callable) -> None:
 
     # Print each input-output pair
     for input_args, output in zip(inputs, outputs):
-        print(f"{method_name}(*{input_args.decode('utf-8')}) -> {output.decode('utf-8')}")
+        print(
+            f"{method_name}(*{input_args.decode('utf-8')}) ->
+            {output.decode('utf-8')}")
 
 
 class Cache:
@@ -88,7 +93,8 @@ class Cache:
         # Return the key
         return key
 
-    def get(self, key: str, fn: Optional[callable] = None) -> Optional[Union[str, int, bytes]]:
+    def get(self, key: str, fn: Optional[callable]
+            = None) -> Optional[Union[str, int, bytes]]:
         """
         Retrieve data from Redis, optionally
         using a callable function to convert the data.
@@ -122,7 +128,8 @@ class Cache:
             key (str): The key to look up in Redis.
 
         Returns:
-            Optional[str]: The decoded string, or None if the key doesn't exist.
+            Optional[str]: The decoded string, or
+            None if the key doesn't exist.
         """
         return self.get(key, lambda d: d.decode("utf-8"))
 
